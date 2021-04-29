@@ -33,8 +33,8 @@ export MINI=$(minikube ip | grep -oE "\b([0-9]{1,3}\.){3}\b")20
 cp srcs/metallb/metallb-conf-copy.yaml srcs/metallb/metallb-conf.yaml
 sed -i "s/MYIP/$MINI/g" ./srcs/metallb/metallb-conf.yaml
 
-cp srcs/mysql/srcs/wordpress-copy.sql srcs/mysql/srcs/wordpress.sql
-sed -i "s/MYIP/$MINI/g" ./srcs/mysql/srcs/wordpress.sql
+#cp srcs/mysql/srcs/wordpress-copy.sql srcs/mysql/srcs/wordpress.sql
+#sed -i "s/MYIP/$MINI/g" ./srcs/mysql/srcs/wordpress.sql
 
 cp srcs/nginx/nginx-copy.conf srcs/nginx/nginx.conf
 sed -i "s/MYIP/$MINI/g" ./srcs/nginx/nginx.conf
