@@ -1,22 +1,33 @@
 #!/bin/bash
-#set -eux
-
-######################################
-#               Colors               #
-######################################
-
-_BLUE='\033[34m'
-_GREEN='\033[32m'
 
 ######################################
 #       Lancement de minikube        #
 ######################################
 
 printf "\e[38;5;196mDeleting minikube cluster...\n\e[0m"
-minikube delete
+minikube delete 
+printf "\e[38;5;196mChecking minikube update...\n\e[0m"
+if [ `minikube update-check | sed -e '2d' | sed -e 's/CurrentVersion: //'` != `minikube update-check | sed -e '1d' | sed -e 's/LatestVersion: //'` ]
+then
+printf "\e[38;5;196mUpdating minikube...\n\e[0m"
+sudo rm -rf /usr/local/bin/minikube
+sudo curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64 
+sudo chmod +x minikube 
+sudo cp minikube /usr/local/bin/
+sudo rm minikube
+else
+printf "\e[38;5;196mMinikube is already up to date !\n\e[0m"
+fi
 # > /dev/null
 printf "\e[38;5;196mCreating minikube cluster...\n\e[0m"
-minikube start --vm-driver=docker
+minikube start --memory=2000mb --vm-driver=docker
+minikube addons enable ingress
+minikube addons enable dashboard
+minikube addons enable metrics-server
+
+printf '\e[38;5;196mEnabled Addons...\n\e[0m'
+minikube addons list | grep STATUS && minikube addons list | grep enabled
+
 # > /dev/null
 #minikube start --vm-driver=virtualbox
 
