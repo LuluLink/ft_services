@@ -1,15 +1,16 @@
-FROM alpine
+FROM alpine:latest
 
-RUN apk update \
-	&& apk add vsftpd \
-    && apk add --no-cache openrc openssl
+RUN apk upgrade
+RUN apk add openssl vsftpd
+RUN apk add jq curl
 
-RUN	openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/ssl/certs/vsftpd.pem -out /etc/ssl/certs/vsftpd.pem -subj "/C=FR/ST=IDE/L=Paris/O=42/OU=42/CN=ftservices" 
+RUN	openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/ssl/private/vsftpd.key -out /etc/ssl/certs/vsftpd.crt -subj "/C=FR/ST=PARIS/O=42/CN=lusokol" 
 
+RUN mkdir -p /var/ftp
 COPY vsftpd.conf /etc/vsftpd/vsftpd.conf
-COPY ./init.sh .
-RUN chmod 777 init.sh
+COPY ./init.sh /tmp/
+RUN chmod 777 /tmp/init.sh
 
-EXPOSE 20 21 30000-30001
+EXPOSE 20 21 21020 21021 21022
 
-CMD ./init.sh
+ENTRYPOINT ["/tmp/init.sh"]

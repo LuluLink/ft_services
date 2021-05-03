@@ -39,8 +39,8 @@ sed -i "s/MYIP/$MINI/g" ./srcs/metallb/metallb-conf.yaml
 cp srcs/nginx/nginx-copy.conf srcs/nginx/nginx.conf
 sed -i "s/MYIP/$MINI/g" ./srcs/nginx/nginx.conf
 
-#cp srcs/ftps/vsftpd-copy.conf srcs/ftps/vsftpd.conf
-#sed -i "s/MYIP/$MINI/g" srcs/ftps/vsftpd.conf
+cp srcs/ftps/vsftpd-copy.conf srcs/ftps/vsftpd.conf
+sed -i "s/MYIP/$MINI/g" srcs/ftps/vsftpd.conf
 
 cp srcs/nginx/index_nginx_copy.html srcs/nginx/index_nginx.html
 sed -i "s/MYIP/$MINI/g" srcs/nginx/index_nginx.html
